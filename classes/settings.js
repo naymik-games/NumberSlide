@@ -1,0 +1,36 @@
+let gameOptions = {
+  gemSize: 100,
+  fallSpeed: 100,
+  destroySpeed: 200,
+  offsetX: 50,
+  offsetY: 250,
+  gameMode: 'time', //moves, challenge
+  defaultTime: 60,
+
+
+
+}
+let slideColors = [0xA6AB86, 0xDC5639, 0x823957, 0x436475, 0x5FA34C, 0xFBBD4E]
+
+let gameSettings;
+var defaultValues = {
+  mostDotsMoves: 0,
+  mostDotsTime: 0,
+  levelStatus: [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+  totalSquares: 0,
+  group: 0,
+  currentLevel: 0
+}
+
+
+loadFont("PixelFont", "assets/fonts/mago1.ttf");
+loadFont("PixelFontWide", "assets/fonts/mago3.ttf");
+function loadFont(name, url) {
+  var newFont = new FontFace(name, `url(${url})`);
+  newFont.load().then(function (loaded) {
+    document.fonts.add(loaded);
+  }).catch(function (error) {
+    return error;
+  });
+}
+loadFont("PixelFontWide", "assets/fonts/mago3.ttf");
