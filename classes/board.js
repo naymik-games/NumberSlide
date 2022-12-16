@@ -143,7 +143,7 @@ class Board {
       if (testMatch.length > 0) {
         if (testMatch[0].length > 2) {
           tempScore += testMatch[0].length * testMatch[1]
-
+          this.scene.explode(testMatch[0][0].x, testMatch[0][0].y)
           this.matchCount++
           numberOfMatches++
           this.clearMatches(testMatch[0])
@@ -414,7 +414,7 @@ class Board {
     return x >= 0 && y >= 0 && x < this.width && y < this.height;
   }
   validDrag(dot) {
-    return this.rightColor(dot) && this.isNeighbor(dot) && this.notAlreadySelected(dot) && this.canSelectDot(dot) && this.movesLeft();
+    return this.rightColor(dot) && this.isNext(dot) && this.notAlreadySelected(dot) && this.canSelectDot(dot) && this.movesLeft();//this.isNeighbor(dot)
   }
   movesLeft() {
     if (this.selectedDots.length == this.chain.length) {
@@ -433,7 +433,15 @@ class Board {
     return neighbors.includes(dot);
 
   }
-
+  isNext(dot) {
+    var last = this.lastSelectedDot()
+    if (this.scene.diagonal) {
+      return (Math.abs(dot.coordinates[0] - last.coordinates[0]) <= 1) && (Math.abs(dot.coordinates[1] - last.coordinates[1]) <= 1);
+    }
+    else {
+      return (Math.abs(dot.coordinates[0] - last.coordinates[0]) == 1 && dot.coordinates[1] - last.coordinates[1] == 0) || (Math.abs(dot.coordinates[1] - last.coordinates[1]) == 1 && dot.coordinates[0] - last.coordinates[0] == 0);
+    }
+  }
   notAlreadySelected(dot) {
     return !this.selectedDots.includes(dot);
 

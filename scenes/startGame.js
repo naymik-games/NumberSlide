@@ -30,7 +30,7 @@ class startGame extends Phaser.Scene {
   clickHandler() {
 
     this.scene.start('playGame');
-    //this.scene.launch('UI');
+    this.scene.launch('UI');
   }
 
 }

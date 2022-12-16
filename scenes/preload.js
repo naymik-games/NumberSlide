@@ -96,8 +96,13 @@ class preloadGame extends Phaser.Scene {
       frameWidth: 128,
       frameHeight: 128
     });
+    this.load.spritesheet("burst", "assets/sprites/burst.png", {
+      frameWidth: 100,
+      frameHeight: 100
+    });
     this.load.image('blank', 'assets/sprites/blank.png');
-
+    this.load.image('star', 'assets/sprites/star2.png');
+    this.load.image('uiheader', 'assets/sprites/uiheader.png');
   }
   create() {
     this.scene.start("startGame");
