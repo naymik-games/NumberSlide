@@ -219,8 +219,10 @@ class playGame extends Phaser.Scene {
       var matches = this.board.findChainMatches()
       console.log(matches)
       if (matches) {
-        //this.tweenMatch(1)
+        this.board.matchStreak++
 
+      } else {
+        this.board.matchStreak = 0
       }
       this.generateChain()
       this.updateStats()

@@ -16,6 +16,7 @@ class Board {
     this.scoreProgress = 0
     this.progress = 1
     this.matchCount = 0
+    this.matchStreak = 0
     this.squareCompleted = false
     this.numColors = numColors
     this.redrawTheseColumns = {};
