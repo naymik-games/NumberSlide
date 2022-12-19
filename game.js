@@ -114,10 +114,7 @@ class playGame extends Phaser.Scene {
     }, this)
 
 
-    this.clearButton = this.add.image(450, 1400, 'num_tiles', 0).setTint(slideColors[this.colorShade]).setScale(.75).setAlpha(1).setInteractive()
-    this.clearButton.on('pointerdown', function () {
-      this.board.destroyDotsOfValue()
-    }, this)
+
 
     this.UI = this.scene.get('UI');
     this.input.on("pointerdown", this.dotSelect, this);

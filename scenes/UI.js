@@ -31,6 +31,26 @@ class UI extends Phaser.Scene {
     this.progressLabel = this.add.text(750, 135, this.Main.board.progress, { fontFamily: 'PixelFontWide', fontSize: '110px', color: '#DC5639', align: 'left' }).setOrigin(0, .5)
 
 
+    this.clearButton = this.add.image(450, 1400, 'num_tiles', 0).setTint(slideColors[this.Main.colorShade]).setScale(.75).setAlpha(1).setInteractive()
+    this.clearButton.on('pointerdown', function () {
+      //this.Main.board.destroyDotsOfValue()
+      //this.Main.board.deleteRow(2)
+      this.Main.board.deleteColumn(2)
+      // this.Main.board.deleteAllDead()
+      // this.Main.board.deleteRandom(3)
+      //this.Main.board.changeRandom(3)
+    }, this)
+
+
+
+    this.homeLabel = this.add.text(450, 1550, 'HOME', { fontFamily: 'PixelFontWide', fontSize: '125px', color: '#DC5639', align: 'left' }).setOrigin(.5).setInteractive()
+    this.homeLabel.on('pointerdown', function () {
+      this.scene.stop()
+      this.scene.stop('playGame')
+      this.scene.start('startGame')
+    }, this)
+
+
     this.Main.events.on('score', function () {
 
       this.score.setText(this.Main.board.score)

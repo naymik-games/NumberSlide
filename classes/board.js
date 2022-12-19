@@ -88,6 +88,7 @@ class Board {
     }
 
   }
+
   placeTile(x, y) {
     var ranVal = Phaser.Math.Between(this.scene.numberRange[0], this.scene.numberRange[1])
     this.dots[x][y].image.setFrame(ranVal)
@@ -270,7 +271,16 @@ class Board {
     this.dots[coord[0]][coord[1]].selectable = true
     this.dots[coord[0]][coord[1]].value = 0
   }
+  changeRandom(count) {
+    var ranDots = this.findRandomDotsOfValue(count)
+    var scene = this.scene
+    ranDots.forEach(function (dot) {
+      var ranVal = Phaser.Math.Between(scene.numberRange[0], scene.numberRange[1])
+      dot.image.setFrame(ranVal)
+      dot.value = ranVal
+    });
 
+  }
   setTiles() {
     this.selectedDots.forEach(function (dot) {
       dot.set()
@@ -306,6 +316,42 @@ class Board {
       dot.explode();
     });
     dotsOfColor.forEach(function (dot) {
+      dot.destroy();
+    });
+  }
+  deleteColumn(col) {
+    var colDots = this.findColumn(col)
+    colDots.forEach(function (dot) {
+      dot.explode();
+    });
+    colDots.forEach(function (dot) {
+      dot.destroy();
+    });
+  }
+  deleteRow(row) {
+    var rowDots = this.findRow(row)
+    rowDots.forEach(function (dot) {
+      dot.explode();
+    });
+    rowDots.forEach(function (dot) {
+      dot.destroy();
+    });
+  }
+  deleteRandom(count) {
+    var ranDots = this.findRandomDotsOfValue(count)
+    ranDots.forEach(function (dot) {
+      dot.explode();
+    });
+    ranDots.forEach(function (dot) {
+      dot.destroy();
+    });
+  }
+  deleteAllDead() {
+    var dotsDead = this.findAllDead();
+    dotsDead.forEach(function (dot) {
+      dot.explode();
+    });
+    dotsDead.forEach(function (dot) {
       dot.destroy();
     });
   }
@@ -393,15 +439,60 @@ class Board {
       return false;
     }
   }
-  findAllByvalue = function (color) {
+  findAllDead() {
+    var container = [];
+    var scene = this.scene
+    this.dots.forEach(function (column) {
+      column.forEach(function (dot) {
+        if (dot.value < scene.numberRange[0]) container.push(dot);
+      });
+    });
+    return container;
+  }
+  findAllByvalue(value) {
     var container = [];
     this.dots.forEach(function (column) {
       column.forEach(function (dot) {
-        if (dot.color == color) container.push(dot);
+        if (dot.value == value) container.push(dot);
       });
     });
     return container;
   };
+  findColumn(col) {
+    var container = [];
+    this.dots.forEach(function (column) {
+      column.forEach(function (dot) {
+        if (dot.coordinates[0] == col) container.push(dot);
+      });
+    });
+    return container;
+  }
+  findRow(row) {
+    var container = [];
+    this.dots.forEach(function (column) {
+      column.forEach(function (dot) {
+        if (dot.coordinates[1] == row) container.push(dot);
+      });
+    });
+    return container;
+  }
+  findRandomDotsOfValue(count) {
+    var container = []
+    var found = 0
+    var tries = 0
+    while (found < count && tries < this.width * this.height) {
+      var randX = Phaser.Math.Between(0, this.width - 1)
+      var randY = Phaser.Math.Between(0, this.height - 1)
+      if (this.dots[randX][randY].value > 0) {
+        //var ranCol = Phaser.Math.Between(1, slideColors.length - 1)
+        //this.board.dots[randX][randY].image.setTint(slideColors[ranCol])
+        container.push(this.dots[randX][randY])
+        found++
+      }
+      tries++
+    }
+    return container
+  }
   selectAllValues = function () {
     var container = [];
     this.dots.forEach(function (column) {
