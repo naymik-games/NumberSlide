@@ -21,6 +21,7 @@ class UI extends Phaser.Scene {
     this.streakCount = this.add.text((this.matchCount.x + this.matchCount.width) + 20, 35, this.Main.board.matchStreak, { fontFamily: 'PixelFont', fontSize: '100px', color: '#ff0000', align: 'left' }).setOrigin(0, .5)
     this.matchLabel = this.add.text(380, 135, 'MATCHES', { fontFamily: 'PixelFont', fontSize: '70px', color: '#DC5639', align: 'left' }).setOrigin(0, .5)
 
+    this.comnboCount = this.add.text(380, 175, '0', { fontFamily: 'PixelFont', fontSize: '100px', color: '#ff0000', align: 'left' }).setOrigin(0, .5)
 
 
     var progressBox = this.add.graphics();
@@ -35,10 +36,11 @@ class UI extends Phaser.Scene {
     this.clearButton.on('pointerdown', function () {
       //this.Main.board.destroyDotsOfValue()
       //this.Main.board.deleteRow(2)
-      this.Main.board.deleteColumn(2)
+      // this.Main.board.deleteColumn(2)
       // this.Main.board.deleteAllDead()
       // this.Main.board.deleteRandom(3)
       //this.Main.board.changeRandom(3)
+      // this.Main.board.reassignValues()
     }, this)
 
 

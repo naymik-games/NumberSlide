@@ -457,7 +457,16 @@ class Board {
       });
     });
     return container;
-  };
+  }
+  findCountOfValue(value) {
+    var count = 0
+    this.dots.forEach(function (column) {
+      column.forEach(function (dot) {
+        if (dot.value > 0) count++;
+      });
+    });
+    return count;
+  }
   findColumn(col) {
     var container = [];
     this.dots.forEach(function (column) {
@@ -578,5 +587,36 @@ class Board {
       if (circle.length >= 5) return true;
     }
     return false;
+  }
+  reassignValues() {
+    var container = this.findBoardValues()
+    //  console.log(container)
+    container = shuffle(container)
+
+    this.dots.forEach(function (column) {
+      column.forEach(function (dot, index) {
+        if (dot.value > 0) {
+          var value = container.pop()
+          dot.value = value
+          dot.image.setFrame(value)
+        }
+
+      });
+    });
+
+  }
+  findBoardValues() {
+    var container = [];
+    this.dots.forEach(function (column) {
+      column.forEach(function (dot) {
+        if (dot.value > 0) {
+          container.push(dot.value);
+        }
+
+      });
+    });
+
+
+    return container;
   }
 }

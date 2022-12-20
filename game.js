@@ -214,7 +214,7 @@ class playGame extends Phaser.Scene {
       this.board.setTiles()
       this.board.resetBoardKeep()
       var matches = this.board.findChainMatches()
-      console.log(matches)
+      console.log('combo ' + matches)
       if (matches) {
         this.board.matchStreak++
 
@@ -222,7 +222,7 @@ class playGame extends Phaser.Scene {
         this.board.matchStreak = 0
       }
       this.generateChain()
-      this.updateStats()
+      this.updateStats(matches)
       this.checkBoard()
     } else {
       // console.log('No!')
@@ -303,8 +303,38 @@ class playGame extends Phaser.Scene {
 
 
   }
-  updateStats() {
+  updateStats(combo) {
+    var countOfTiles = this.board.findCountOfValue()
+    var percentTiles = countOfTiles / (this.boardWidth * this.boardHeight)
+    console.log(Math.round(percentTiles * 100))
+    if (combo > 1) {
+      if (percentTiles < .25) {
+        this.board.scroe += (50 * this.board.progress) * combo
+        console.log('combo score bonus')
+      } else {
+        var ran = Phaser.Math.Between(1, 100)
+        if (ran < 15) {
+          this.board.changeRandom(Phaser.Math.Between(2, 4))
+        } else if (ran < 30) {
+          this.board.deleteRow(Phaser.Math.Between(2, this.boardHeight - 1))
+        } else if (ran < 45) {
+          this.board.deleteRandom(Phaser.Math.Between(1, 4))
+        } else if (ran < 60) {
+          this.board.changeRandom(Phaser.Math.Between(2, 4))
+        } else if (ran < 75) {
+          this.board.reassignValues()
+        } else if (ran < 90) {
+          if (this.board.progress > 2) {
+            this.board.deleteAllDead()
+          } else {
+            this.board.deleteColumn(Phaser.Math.Between(2, this.boardWidth - 1))
+          }
 
+        } else {
+          this.board.destroyDotsOfValue()
+        }
+      }
+    }
 
     if (this.board.scoreProgress >= this.levelGoal) {
       this.board.scoreProgress = 0
@@ -314,6 +344,14 @@ class playGame extends Phaser.Scene {
       this.board.findBoardMatches()
       this.damageEmit(this.UI.progressLabel.x, this.UI.progressLabel.y)
     }
+    //this.Main.board.destroyDotsOfValue()
+    //this.Main.board.deleteRow(2)
+    // this.Main.board.deleteColumn(2)
+    // this.Main.board.deleteAllDead()
+    // this.Main.board.deleteRandom(3)
+    //this.Main.board.changeRandom(3)
+    // this.Main.board.reassignValues()
+
     //this.scoreProgress.setText(this.board.scoreProgress)
 
 
