@@ -7,6 +7,7 @@ class Board {
     this.scene = scene
     this.dots = [];
     this.boardData = []
+    this.overlay = []
     this.idCount = 0
     this.selectedColor = null
     this.selectedDots = []
@@ -33,7 +34,7 @@ class Board {
 
 
 
-    console.log(this.boardData)
+    console.log(this.overlay)
 
 
   };
@@ -41,15 +42,35 @@ class Board {
   makeColumn(xAxis) {
     var columnData = []
     var column = [];
+    var columnOverlay = []
     for (var yAxis = 0; yAxis < this.height; yAxis++) {
       var dot = this.addDot(xAxis, yAxis);
       column.push(dot);
+      columnOverlay.push({ coordinates: [xAxis, yAxis], image: this.addBonusImage(xAxis, yAxis), type: 0, strength: 0, active: false })
       columnData.push(0)
     }
     this.dots.push(column);
     this.boardData.push(columnData)
+    this.overlay.push(columnOverlay)
 
   };
+  addBonusImage(xAxis, yAxis) {
+    var dotImg = this.scene.bonuses.get();
+    // console.log(dotImg)
+    dotImg.setTexture('num_tiles', 35)
+    // dotImg.setTint(slideColors[num])
+    dotImg.displayWidth = this.scene.spriteSize
+    dotImg.displayHeight = this.scene.spriteSize
+
+    let posX = this.scene.xOffset + this.scene.dotSize * xAxis + this.scene.dotSize / 2;
+    let posY = this.scene.yOffset + this.scene.dotSize * yAxis + this.scene.dotSize / 2
+
+    dotImg.setVisible(false)
+    dotImg.setActive(false)
+    dotImg.setDepth(2)
+    dotImg.setPosition(posX, posY)
+    return dotImg
+  }
   addDot(x, y) {
     //var num = Phaser.Math.Between(0, slideColors.length - 1);
     var num = 0
@@ -265,6 +286,14 @@ class Board {
     this.dots[coord.x][coord.y].image.setFrame(0)
     this.dots[coord.x][coord.y].selectable = true
     this.dots[coord.x][coord.y].value = 0
+
+    if (this.overlay[coord.x][coord.y].active) {
+      console.log('found bonus ' + coord.x + ', ' + coord.y)
+      this.overlay[coord.x][coord.y].active = false
+      this.overlay[coord.x][coord.y].image.setActive(false)
+      this.overlay[coord.x][coord.y].image.setVisible(false)
+    }
+
   }
   clearMatch2(coord) {
     this.dots[coord[0]][coord[1]].image.setFrame(0)
@@ -618,5 +647,29 @@ class Board {
 
 
     return container;
+  }
+  addBonus(count) {
+    var placedR = 0
+    while (placedR < count) {
+      var randX = Phaser.Math.Between(0, this.width - 1)
+      var randY = Phaser.Math.Between(0, this.height - 1)
+      if (!this.overlay[randX][randY].active) {
+        this.setBonus(randX, randY)
+
+        placedR++
+      }
+    }
+  }
+  setBonus(randX, randY) {
+
+    this.overlay[randX][randY].active = true
+    this.overlay[randX][randY].image.setVisible(true)
+    this.overlay[randX][randY].image.setActive(true)
+    this.overlay[randX][randY].image.setAlpha(1)
+    this.overlay[randX][randY].image.setDepth(4)
+    console.log(this.overlay[randX][randY])
+    //   dot.image.displayWidth = this.scene.spriteSize
+    //  dot.image.displayHeight = this.scene.spriteSize
+
   }
 }

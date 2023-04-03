@@ -60,6 +60,11 @@ class playGame extends Phaser.Scene {
       maxSize: (this.boardWidth * this.boardHeight) + 30,
 
     });
+    this.bonuses = this.add.group({
+
+      maxSize: this.boardWidth * this.boardHeight,
+
+    });
     this.remove = false
     this.numText = this.add.bitmapText(15, 1400, 'topaz', '', 60).setOrigin(0, .5).setTint(0xecf0f1);
     this.board = new Board(this, this.boardWidth, this.boardHeight, this.numColors);
@@ -68,7 +73,7 @@ class playGame extends Phaser.Scene {
 
     this.drawBoard()
     this.generateChain()
-
+    this.board.addBonus(1)
     //this.score = this.add.bitmapText(50, 50, 'topaz', this.board.score, 80).setOrigin(0, .5).setTint(0xfafafa);
 
     // this.scoreProgress = this.add.bitmapText(675, 50, 'topaz', this.board.scoreProgress, 80).setOrigin(0, .5).setTint(0xfafafa);
@@ -309,8 +314,8 @@ class playGame extends Phaser.Scene {
     console.log(Math.round(percentTiles * 100))
     if (combo > 1) {
       if (percentTiles < .25) {
-        this.board.scroe += (50 * this.board.progress) * combo
-        console.log('combo score bonus')
+        this.board.scroe += (100 * this.board.progress) * combo
+
       } else {
         var ran = Phaser.Math.Between(1, 100)
         if (ran < 15) {
@@ -339,8 +344,11 @@ class playGame extends Phaser.Scene {
     if (this.board.scoreProgress >= this.levelGoal) {
       this.board.scoreProgress = 0
       this.board.progress++
+      if (this.board.progress > 5) {
+        this.diagonal = true
+      }
       this.nextLevel()
-      this.board.placeTiles(this.board.progress)
+      this.board.placeTiles(Math.floor(this.board.progress / 2))
       this.board.findBoardMatches()
       this.damageEmit(this.UI.progressLabel.x, this.UI.progressLabel.y)
     }
