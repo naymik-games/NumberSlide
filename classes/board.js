@@ -57,7 +57,7 @@ class Board {
   addBonusImage(xAxis, yAxis) {
     var dotImg = this.scene.bonuses.get();
     // console.log(dotImg)
-    dotImg.setTexture('num_tiles', 35)
+    dotImg.setTexture('num_tiles', 45)
     // dotImg.setTint(slideColors[num])
     dotImg.displayWidth = this.scene.spriteSize
     dotImg.displayHeight = this.scene.spriteSize

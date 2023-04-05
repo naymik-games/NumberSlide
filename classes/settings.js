@@ -14,12 +14,7 @@ let slideColors = [0xA6AB86, 0xDC5639, 0x823957, 0x436475, 0x5FA34C, 0xFBBD4E]
 
 let gameSettings;
 var defaultValues = {
-  mostDotsMoves: 0,
-  mostDotsTime: 0,
-  levelStatus: [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  totalSquares: 0,
-  group: 0,
-  currentLevel: 0
+  bestScore: 0
 }
 
 

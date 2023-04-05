@@ -66,7 +66,7 @@ class playGame extends Phaser.Scene {
 
     });
     this.remove = false
-    this.numText = this.add.bitmapText(15, 1400, 'topaz', '', 60).setOrigin(0, .5).setTint(0xecf0f1);
+    //this.numText = this.add.bitmapText(15, 1400, 'topaz', '', 60).setOrigin(0, .5).setTint(0xecf0f1);
     this.board = new Board(this, this.boardWidth, this.boardHeight, this.numColors);
     this.board.makeBoard()
     console.log(this.board)
@@ -101,7 +101,7 @@ class playGame extends Phaser.Scene {
 
 
 
-    this.removeButton = this.add.image(75, 1400, 'num_tiles', 32).setTint(slideColors[this.colorShade]).setScale(.75).setAlpha(1).setInteractive()
+    this.removeButton = this.add.image(75, 1400, 'num_tiles', 36).setTint(slideColors[this.colorShade]).setScale(.75).setAlpha(1).setInteractive()
     this.removeButton.on('pointerdown', function () {
       if (this.remove) {
         this.removeButton.setTint(slideColors[0])
@@ -139,7 +139,8 @@ class playGame extends Phaser.Scene {
       this.remove = false
       this.removeButton.setTint(slideColors[0])
       this.board.matchCount -= 15
-      this.matchCount.setText(this.board.matchCount)
+      // this.matchCount.setText(this.board.matchCount)
+      this.events.emit('matchCount');
       // this.tweenMatch(0)
       return
     }
@@ -149,7 +150,7 @@ class playGame extends Phaser.Scene {
     this.board.dots[col][row].activate();
     this.board.dots[col][row].image.setFrame(this.board.chain[0])
     this.board.dragging = true;
-    this.numText.setText(this.board.selectedDots.length)
+    // this.numText.setText(this.board.selectedDots.length)
   }
   dotMove(pointer) {
     if (this.board.dragging) {
@@ -170,7 +171,7 @@ class playGame extends Phaser.Scene {
 
           dot.activate();
           this.board.dots[col][row].image.setFrame(this.board.chain[this.board.selectedDots.length - 1])
-          this.numText.setText(this.board.selectedDots.length)
+          //this.numText.setText(this.board.selectedDots.length)
         } else if (this.board.secondToLast(dot)) {
           //backtrack
           var line = this.lineArray.pop()
@@ -179,7 +180,7 @@ class playGame extends Phaser.Scene {
           rect.setAlpha(0).destroy()
           this.board.deactivateLastDot();
           //this.board.lastSelectedDot().image.setFrame(0)
-          this.numText.setText(this.board.selectedDots.length)
+          //  this.numText.setText(this.board.selectedDots.length)
         } /* else if (this.allowSquares && this.board.rightColor(dot) && this.board.isNeighbor(dot) && this.board.completeSquare(dot)) {
         //square
         var line = this.add.line(null, null, this.board.secondToLastSelectedDot().image.x, this.board.secondToLastSelectedDot().image.y, this.board.lastSelectedDot().image.x, this.board.lastSelectedDot().image.y, dotColors[this.board.selectedColor]).setOrigin(0);
@@ -269,7 +270,13 @@ class playGame extends Phaser.Scene {
     //   console.log('chain ' + this.board.chain.length)
     if (maxBlank < this.board.chain.length) {
       console.log('game over no more room')
-      alert('Game Over -- Out of Space')
+      if (this.board.score > gameSettings.bestScore) {
+        gameSettings.bestScore = this.board.score
+        localStorage.setItem('NSsave', JSON.stringify(gameSettings));
+      }
+      this.scene.stop()
+      this.scene.stop('UI')
+      this.scene.start('startGame')
     }
   }
   drawBoard() {
@@ -344,8 +351,9 @@ class playGame extends Phaser.Scene {
     if (this.board.scoreProgress >= this.levelGoal) {
       this.board.scoreProgress = 0
       this.board.progress++
-      if (this.board.progress > 5) {
+      if (this.board.progress >= 5) {
         this.diagonal = true
+        this.events.emit('movement');
       }
       this.nextLevel()
       this.board.placeTiles(Math.floor(this.board.progress / 2))

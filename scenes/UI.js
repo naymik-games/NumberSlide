@@ -21,7 +21,7 @@ class UI extends Phaser.Scene {
     this.streakCount = this.add.text((this.matchCount.x + this.matchCount.width) + 20, 35, this.Main.board.matchStreak, { fontFamily: 'PixelFont', fontSize: '100px', color: '#ff0000', align: 'left' }).setOrigin(0, .5)
     this.matchLabel = this.add.text(380, 135, 'MATCHES', { fontFamily: 'PixelFont', fontSize: '70px', color: '#DC5639', align: 'left' }).setOrigin(0, .5)
 
-    this.comnboCount = this.add.text(380, 175, '0', { fontFamily: 'PixelFont', fontSize: '100px', color: '#ff0000', align: 'left' }).setOrigin(0, .5)
+    this.bestScore = this.add.text(50, 180, gameSettings.bestScore, { fontFamily: 'PixelFont', fontSize: '70px', color: '#ff0000', align: 'left' }).setOrigin(0, .5)
 
 
     var progressBox = this.add.graphics();
@@ -38,7 +38,7 @@ class UI extends Phaser.Scene {
       //this.Main.board.deleteRow(2)
       // this.Main.board.deleteColumn(2)
       // this.Main.board.deleteAllDead()
-      // this.Main.board.deleteRandom(3)
+      //this.Main.board.deleteRandom(3)
       //this.Main.board.changeRandom(3)
       // this.Main.board.reassignValues()
     }, this)
@@ -53,6 +53,8 @@ class UI extends Phaser.Scene {
     }, this)
 
 
+    this.movement = this.add.image(850, 1550, 'num_tiles', 48).setOrigin(1, .5).setTint(slideColors[this.Main.colorShade]).setScale(1).setAlpha(1)
+
     this.Main.events.on('score', function () {
 
       this.score.setText(this.Main.board.score)
@@ -66,6 +68,14 @@ class UI extends Phaser.Scene {
       this.progressLabel.setText(this.Main.board.progress)
     }, this);
 
+    this.Main.events.on('matchCount', function () {
+      this.matchCount.setText(this.Main.board.matchCount)
+
+    }, this);
+    this.Main.events.on('movement', function () {
+      this.movement.setFrame(49)
+
+    }, this);
 
 
   }

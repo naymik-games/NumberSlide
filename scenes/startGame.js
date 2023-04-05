@@ -8,22 +8,22 @@ class startGame extends Phaser.Scene {
 
   }
   create() {
-    /*
-      gameSettings = JSON.parse(localStorage.getItem('SDsave'));
-      if (gameSettings === null || gameSettings.length <= 0) {
-        localStorage.setItem('SDsave', JSON.stringify(defaultValues));
-        gameSettings = defaultValues;
-      }
-    */
+
+    gameSettings = JSON.parse(localStorage.getItem('NSsave'));
+    if (gameSettings === null || gameSettings.length <= 0) {
+      localStorage.setItem('NSsave', JSON.stringify(defaultValues));
+      gameSettings = defaultValues;
+    }
+
     this.cameras.main.setBackgroundColor(0x000000);
 
     //var title = this.add.bitmapText(game.config.width / 2, 100, 'topaz', 'SquareDots', 150).setOrigin(.5).setTint(0xc76210);
-    this.modeText = this.add.text(game.config.width / 2, 100, 'NumberSlide', { fontFamily: 'PixelFont', fontSize: '100px', color: '#FaFaFa', align: 'left' }).setOrigin(.5)
+    this.TitleText = this.add.text(game.config.width / 2, 125, 'NumberSlide', { fontFamily: 'PixelFont', fontSize: '100px', color: '#FaFaFa', align: 'left' }).setOrigin(.5)
 
-    var startTime = this.add.bitmapText(game.config.width / 2 - 50, 275, 'topaz', 'Play Time', 50).setOrigin(0, .5).setTint(0xFaFaFa);
+    var startTime = this.add.bitmapText(game.config.width / 2, 275, 'topaz', 'PLAY', 50).setOrigin(.5).setTint(0xFaFaFa);
     startTime.setInteractive();
     startTime.on('pointerdown', this.clickHandler, this);
-
+    var bestScoreText = this.add.bitmapText(game.config.width / 2, 475, 'topaz', gameSettings.bestScore, 50).setOrigin(.5).setTint(0xFaFaFa);
 
 
   }
