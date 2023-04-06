@@ -32,17 +32,60 @@ class UI extends Phaser.Scene {
     this.progressLabel = this.add.text(750, 135, this.Main.board.progress, { fontFamily: 'PixelFontWide', fontSize: '110px', color: '#DC5639', align: 'left' }).setOrigin(0, .5)
 
 
-    this.clearButton = this.add.image(450, 1400, 'num_tiles', 0).setTint(slideColors[this.Main.colorShade]).setScale(.75).setAlpha(1).setInteractive()
-    this.clearButton.on('pointerdown', function () {
+    this.deleteThreeButton = this.add.image(185, 1400, 'num_tiles', 37).setTint(slideColors[this.Main.colorShade]).setScale(.75).setAlpha(1).setInteractive()
+    this.deleteThreeButton.on('pointerdown', function () {
       //this.Main.board.destroyDotsOfValue()
       //this.Main.board.deleteRow(2)
       // this.Main.board.deleteColumn(2)
       // this.Main.board.deleteAllDead()
-      //this.Main.board.deleteRandom(3)
+      this.Main.board.deleteRandom(3)
       //this.Main.board.changeRandom(3)
       // this.Main.board.reassignValues()
     }, this)
 
+    this.deleteAllDeadButton = this.add.image(295, 1400, 'num_tiles', 38).setTint(slideColors[this.Main.colorShade]).setScale(.75).setAlpha(1).setInteractive()
+    this.deleteAllDeadButton.on('pointerdown', function () {
+      //this.Main.board.destroyDotsOfValue()
+      //this.Main.board.deleteRow(2)
+      // this.Main.board.deleteColumn(2)
+      this.Main.board.deleteAllDead()
+      // this.Main.board.deleteRandom(3)
+      //this.Main.board.changeRandom(3)
+      // this.Main.board.reassignValues()
+    }, this)
+
+    this.reassignAllButton = this.add.image(405, 1400, 'num_tiles', 39).setTint(slideColors[this.Main.colorShade]).setScale(.75).setAlpha(1).setInteractive()
+    this.reassignAllButton.on('pointerdown', function () {
+      //this.Main.board.destroyDotsOfValue()
+      //this.Main.board.deleteRow(2)
+      // this.Main.board.deleteColumn(2)
+      //this.Main.board.deleteAllDead()
+      // this.Main.board.deleteRandom(3)
+      //this.Main.board.changeRandom(3)
+      this.Main.board.reassignValues()
+    }, this)
+
+    this.deleteColButton = this.add.image(515, 1400, 'num_tiles', 40).setTint(slideColors[this.Main.colorShade]).setScale(.75).setAlpha(1).setInteractive()
+    this.deleteColButton.on('pointerdown', function () {
+      //this.Main.board.destroyDotsOfValue()
+      //this.Main.board.deleteRow(2)
+      this.Main.board.deleteColumn(Phaser.Math.Between(0, 4))
+      //this.Main.board.deleteAllDead()
+      // this.Main.board.deleteRandom(3)
+      //this.Main.board.changeRandom(3)
+      // this.Main.board.reassignValues()
+    }, this)
+
+    this.deleteRowButton = this.add.image(625, 1400, 'num_tiles', 41).setTint(slideColors[this.Main.colorShade]).setScale(.75).setAlpha(1).setInteractive()
+    this.deleteRowButton.on('pointerdown', function () {
+      //this.Main.board.destroyDotsOfValue()
+      this.Main.board.deleteRow(Phaser.Math.Between(0, 5))
+      // this.Main.board.deleteColumn(Phaser.Math.Between(0, 4))
+      //this.Main.board.deleteAllDead()
+      // this.Main.board.deleteRandom(3)
+      //this.Main.board.changeRandom(3)
+      // this.Main.board.reassignValues()
+    }, this)
 
 
     this.homeLabel = this.add.text(450, 1550, 'HOME', { fontFamily: 'PixelFontWide', fontSize: '125px', color: '#DC5639', align: 'left' }).setOrigin(.5).setInteractive()

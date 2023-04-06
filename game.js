@@ -308,6 +308,7 @@ class playGame extends Phaser.Scene {
     for (var i = 0; i < 5; i++) {
       let xpos = (this.xOffset + this.dotSize) + (this.dotSize * .75) * i + (this.dotSize * .75) / 2;
       let ypos = this.yOffset + (this.dotSize * 1) * this.board.height + (this.dotSize * 1) / 2
+      // let ypos = this.yOffset - (this.dotSize * 1) + (this.dotSize * 1) / 2
       var slot = this.add.image(xpos, ypos, 'num_tiles', 0).setTint(slideColors[0]).setScale(.75).setAlpha(0)
       this.chainSlots.push(slot)
     }
